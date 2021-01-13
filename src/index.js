@@ -5,6 +5,8 @@ import './index.css';
 import App from './App';
 
 import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/auth';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
@@ -18,7 +20,8 @@ ReactDOM.render(
 );
 
 firebase.initializeApp(firebaseConfig)
-// const database = firebase.database();
+
+// Auth
 
 // Initialize the FirebaseUI Widget using Firebase.
 const ui = new firebaseui.auth.AuthUI(firebase.auth());
@@ -49,3 +52,28 @@ var uiConfig = {
 // The start method will wait until the DOM is loaded.
 ui.start('#firebaseui-auth-container', uiConfig);
 
+// API
+const database = firebase.database();
+
+const recipeName = "Spaghetti Bolognaise";
+const ingredients = ["tomatoes", "onions", "pasta", "mince"];
+
+
+// const userId = firebase.auth().currentUser.uid;
+
+const writeRecipe = (recipeName, ingredients) => {
+  firebase.database().ref('recipes/' + recipeName).set({
+    ingredients: ingredients,
+  });
+}
+
+writeRecipe(recipeName, ingredients);
+writeRecipe('Fish Pie', ['fish', 'potatoes', 'milk', 'flour']);
+writeRecipe('Halloumi Curry', ['halloumi', 'sweet potato', 'coconut milk', 'tomatoes']);
+
+
+const retrieveRecipes = firebase.database().ref('recipes/');
+retrieveRecipes.on('value', (snapshot) => {
+  const data = snapshot.val();
+  console.log(data);
+});
