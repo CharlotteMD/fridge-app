@@ -97,13 +97,18 @@ const App = () => {
   return (
     <div className="App">
       <h1>Welcome to My Awesome App</h1>
+      { isLoading && (
+        <p>Loading...</p>
+      )}
       {!isLoading && (
-        <p>Data is:
-          <span>{data.recipeName}</span>
-      </p>
+        <ul>
+            {Object.keys(data).map(function(key) {
+              return <li>{data[key].recipeName}</li>;
+            })}
+      </ul>
       )}
 
-      <FridgeRoutes />
+      <FridgeRoutes data={data}/>
     </div>
   );
 }

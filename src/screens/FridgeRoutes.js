@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -10,7 +10,8 @@ import {Home} from './home';
 import {Login} from './login';
 import {Fridge} from './fridge';
 
-export const FridgeRoutes = () => {
+export const FridgeRoutes = (data) => {    
+
     return (
         <Router>
         <Switch>
@@ -18,7 +19,7 @@ export const FridgeRoutes = () => {
               <Login />
             </Route>
             <Route path="/fridge">
-              <Fridge />
+              <Fridge data={data}/>
             </Route>
             <Route path="/">
               <Home />

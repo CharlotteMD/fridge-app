@@ -2,7 +2,22 @@ import React, {useState, useEffect} from 'react';
 import {writeRecipe, recipeData} from '../App';
 
 
-export const Fridge = () => {
+export const Fridge = (data) => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [fridgeData, setFridgeData] = useState();
+  
+    useEffect(() => {
+      if (typeof data !== "undefined") {
+        setFridgeData(data.data.data)
+        console.log('fridge da', fridgeData, isLoading);
+      }
+    }, [data])
+
+    useEffect(() => {
+        if (typeof fridgeData !== "undefined") {
+            setIsLoading(false);
+        }
+    }, [fridgeData])
 
     function submitRecipe() {
         writeRecipe('Risotto', 'risotto rice')
@@ -14,7 +29,16 @@ export const Fridge = () => {
     return (
         <>
             <h2>What's in the fridge?</h2>
-            {/* <p>{data[0]}</p> */}
+            { isLoading && (
+        <p>Loading...</p>
+      )}
+      {!isLoading && (
+        <ul>
+            {Object.keys(fridgeData).map(function(key) {
+              return <li>{fridgeData[key].recipeName}</li>;
+            })}
+      </ul>
+      )}
             <form>
                 <div>
                     <input type="checkbox" id="tomatoes" name="tomatoes" value="tomatoes"/>
