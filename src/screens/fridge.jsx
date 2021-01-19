@@ -1,21 +1,40 @@
 import React, {useState, useEffect} from 'react';
-import {writeRecipe, recipeData} from '../App';
+import {writeRecipe} from '../App';
 
 
 export const Fridge = (data) => {
     const [isLoading, setIsLoading] = useState(true);
     const [fridgeData, setFridgeData] = useState();
+    const [ingredientsList, setIngredientsList] = useState();
+
+    function getIngredients() {
+        let allRecipeIngredients = [];
+        Object.keys(fridgeData).map(function(key) {
+            const recipeIngredients = fridgeData[key].ingredients;
+            let howMany = Array.isArray(recipeIngredients);
+
+            if (howMany) {
+                recipeIngredients.map(ingredients => {
+                    allRecipeIngredients.push(ingredients)
+                })
+            } else {
+                allRecipeIngredients.push(recipeIngredients);
+            }
+            const noDuplicates = allRecipeIngredients.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
+            setIngredientsList(noDuplicates);
+          })
+    }
   
     useEffect(() => {
-      if (typeof data !== "undefined") {
+      if (data) {
         setFridgeData(data.data.data)
-        console.log('fridge da', fridgeData, isLoading);
       }
     }, [data])
 
     useEffect(() => {
-        if (typeof fridgeData !== "undefined") {
+        if (fridgeData) {
             setIsLoading(false);
+            getIngredients()
         }
     }, [fridgeData])
 

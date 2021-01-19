@@ -1,0 +1,2 @@
+1. get a filtered list of all used ingredients for a tick list
+2. search for recipes using available ingredients

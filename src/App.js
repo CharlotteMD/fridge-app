@@ -44,16 +44,6 @@ const retrieveRecipes = firebase.database().ref('recipes/');
 
 let recipeDataObj = {};
 
-// const recipes = async function getTheData() {
-//   const data = await retrieveRecipes.once('value', (snapshot) => {
-//     const recipeData = snapshot.val();
-//     let recipeDataObj = recipeData;
-//     console.log(recipeDataObj);
-//   });
-// }
-
-// recipes();
-
 export const writeRecipe = (recipeName, ingredients) => {
   firebase.database().ref('recipes/' + recipeName).set({
     recipeName: recipeName,
@@ -68,15 +58,12 @@ writeRecipe('Fish Pie', 'fish')
 
 const App = () => {
   const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
   async function getTheData() {
     try {
       await retrieveRecipes.once('value', (snapshot) => {
-        setIsLoading(true);
         const recipeData = snapshot.val();
         setData(recipeData);
-        setIsLoading(false);
       });
     } catch (e) {
       console.log('error', e);
@@ -89,25 +76,9 @@ const App = () => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
-
-
   return (
     <div className="App">
       <h1>Welcome to My Awesome App</h1>
-      { isLoading && (
-        <p>Loading...</p>
-      )}
-      {!isLoading && (
-        <ul>
-            {Object.keys(data).map(function(key) {
-              return <li>{data[key].recipeName}</li>;
-            })}
-      </ul>
-      )}
-
       <FridgeRoutes data={data}/>
     </div>
   );
