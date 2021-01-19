@@ -1,11 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {writeRecipe} from '../App';
+import {useForm} from 'react-hook-form';
 
 
 export const Fridge = (data) => {
     const [isLoading, setIsLoading] = useState(true);
     const [fridgeData, setFridgeData] = useState();
-    const [ingredientsList, setIngredientsList] = useState();
+    const [completeIngredientsList, setCompleteIngredientsList] = useState();
+    const [availableIngredients, setAvailableIngredients] = useState();
+
+    const { register, handleSubmit, watch, errors } = useForm();
+
+    const onSubmit = data => {
+        const checkedIngredients = Object.keys(data).filter(e => data[e] === true);
+        setAvailableIngredients(checkedIngredients);
+    };
 
     function getIngredients() {
         let allRecipeIngredients = [];
@@ -21,7 +30,7 @@ export const Fridge = (data) => {
                 allRecipeIngredients.push(recipeIngredients);
             }
             const noDuplicates = allRecipeIngredients.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[]);
-            setIngredientsList(noDuplicates);
+            setCompleteIngredientsList(noDuplicates);
           })
     }
   
@@ -38,17 +47,23 @@ export const Fridge = (data) => {
     }, [fridgeData])
 
     useEffect(() => {
-        if (ingredientsList) {
+        if (completeIngredientsList) {
             setIsLoading(false);
-            console.log(ingredientsList);
         }
-    }, [ingredientsList])
+    }, [completeIngredientsList])
+
+    useEffect(() => {
+        if (availableIngredients) {
+            console.log(availableIngredients);
+        }
+    }, [availableIngredients])
 
     function submitRecipe() {
         writeRecipe('Risotto', 'risotto rice')
         writeRecipe('Tuna Pasta', ['tuna', 'pasta', 'tomatoes'])
         writeRecipe('Spaghetti Bolognaise', ['mince', 'tomatoes', 'onions', 'pasta'])
         writeRecipe('Risotto', 'risotto rice')
+        writeRecipe('Halloumi Curry', ['halloumi', 'coconut milk', 'tomatoes', 'peppers', 'onions'])
     }
 
     return (
@@ -57,18 +72,11 @@ export const Fridge = (data) => {
             { isLoading && (
                 <p>Loading...</p>
             )}
-            {/* {!isLoading && (
-                <ul>
-                    {Object.keys(fridgeData).map(function(key) {
-                    return <li>{fridgeData[key].recipeName}</li>;
-                    })}
-                </ul>
-            )} */}
             {!isLoading && (
-                <form>
-                    {ingredientsList.map(ingredients => (
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    {completeIngredientsList.map(ingredients => (
                         <div>
-                            <input type="checkbox" id={ingredients} name={ingredients} value={ingredients}/>
+                            <input type="checkbox" id={ingredients} name={ingredients} ref={register}/>
                             <label htmlFor={ingredients}>{ingredients}</label>
                         </div>
                     ))}
