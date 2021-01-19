@@ -33,10 +33,16 @@ export const Fridge = (data) => {
 
     useEffect(() => {
         if (fridgeData) {
-            setIsLoading(false);
             getIngredients()
         }
     }, [fridgeData])
+
+    useEffect(() => {
+        if (ingredientsList) {
+            setIsLoading(false);
+            console.log(ingredientsList);
+        }
+    }, [ingredientsList])
 
     function submitRecipe() {
         writeRecipe('Risotto', 'risotto rice')
@@ -49,36 +55,29 @@ export const Fridge = (data) => {
         <>
             <h2>What's in the fridge?</h2>
             { isLoading && (
-        <p>Loading...</p>
-      )}
-      {!isLoading && (
-        <ul>
-            {Object.keys(fridgeData).map(function(key) {
-              return <li>{fridgeData[key].recipeName}</li>;
-            })}
-      </ul>
-      )}
-            <form>
-                <div>
-                    <input type="checkbox" id="tomatoes" name="tomatoes" value="tomatoes"/>
-                    <label htmlFor="tomatoes">Tomatoes</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="onions" name="onions" value="onions"/>
-                    <label htmlFor="onions">Onions</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pasta" name="pasta" value="pasta"/>
-                    <label htmlFor="pasta">Pasta</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="potatoes" name="potatoes" value="potatoes"/>
-                    <label htmlFor="potatoes">Potatoes</label>
-                </div>
+                <p>Loading...</p>
+            )}
+            {/* {!isLoading && (
+                <ul>
+                    {Object.keys(fridgeData).map(function(key) {
+                    return <li>{fridgeData[key].recipeName}</li>;
+                    })}
+                </ul>
+            )} */}
+            {!isLoading && (
+                <form>
+                    {ingredientsList.map(ingredients => (
+                        <div>
+                            <input type="checkbox" id={ingredients} name={ingredients} value={ingredients}/>
+                            <label htmlFor={ingredients}>{ingredients}</label>
+                        </div>
+                    ))}
+                                
                 <div>
                     <button type="submit" onSubmit={submitRecipe()}>Feed Me</button>
                 </div>
-            </form>
+                </form>
+            )}
         </>
     )
 };
