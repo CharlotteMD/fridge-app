@@ -8,13 +8,43 @@ export const Fridge = (data) => {
     const [fridgeData, setFridgeData] = useState();
     const [completeIngredientsList, setCompleteIngredientsList] = useState();
     const [availableIngredients, setAvailableIngredients] = useState();
+    const [recipeSuggestions, setRecipeSuggestions] = useState();
 
     const { register, handleSubmit, watch, errors } = useForm();
+
+    const myRecipeArray = [];
+
+    function getRecipes(searchValue) {
+        console.log(fridgeData)
+        Object.keys(fridgeData).map(function(key) {
+            const recipeIngredients = fridgeData[key].ingredients;
+            
+            let howMany = Array.isArray(recipeIngredients);
+            if (howMany) {
+                fridgeData[key].ingredients.map(ingredients => {
+                    if (ingredients === searchValue) {
+                        myRecipeArray.push(fridgeData[key])
+                    }
+                })
+            } else {
+                const filteredRecipes = Object.keys(fridgeData).filter(e => fridgeData[e].ingredients === searchValue)
+                if (filteredRecipes.length > 0) {
+                    myRecipeArray.push(filteredRecipes)
+                }
+            }
+
+          })
+    }
+
 
     const onSubmit = data => {
         const checkedIngredients = Object.keys(data).filter(e => data[e] === true);
         setAvailableIngredients(checkedIngredients);
-    };
+
+        checkedIngredients.map(ingredient => (getRecipes(ingredient)))
+
+        setRecipeSuggestions(myRecipeArray);
+    }
 
     function getIngredients() {
         let allRecipeIngredients = [];
@@ -52,11 +82,17 @@ export const Fridge = (data) => {
         }
     }, [completeIngredientsList])
 
+    // useEffect(() => {
+    //     if (availableIngredients) {
+    //         console.log(availableIngredients);
+    //     }
+    // }, [availableIngredients])
+
     useEffect(() => {
-        if (availableIngredients) {
-            console.log(availableIngredients);
+        if (recipeSuggestions) {
+            console.log(recipeSuggestions);
         }
-    }, [availableIngredients])
+    }, [recipeSuggestions])
 
     function submitRecipe() {
         writeRecipe('Risotto', 'risotto rice')
@@ -80,10 +116,7 @@ export const Fridge = (data) => {
                             <label htmlFor={ingredients}>{ingredients}</label>
                         </div>
                     ))}
-                                
-                <div>
-                    <button type="submit" onSubmit={submitRecipe()}>Feed Me</button>
-                </div>
+                <button type="submit" onSubmit={submitRecipe()}>Feed Me</button>
                 </form>
             )}
         </>
