@@ -12,10 +12,10 @@ export const Fridge = (data) => {
 
     const { register, handleSubmit, watch, errors } = useForm();
 
-    const myRecipeArray = [];
+
 
     function getRecipes(searchValue) {
-        console.log(fridgeData)
+        let myRecipeArray = [];
         Object.keys(fridgeData).map(function(key) {
             const recipeIngredients = fridgeData[key].ingredients;
             
@@ -32,18 +32,15 @@ export const Fridge = (data) => {
                     myRecipeArray.push(filteredRecipes)
                 }
             }
-
           })
+          setRecipeSuggestions(myRecipeArray)
     }
 
 
     const onSubmit = data => {
         const checkedIngredients = Object.keys(data).filter(e => data[e] === true);
         setAvailableIngredients(checkedIngredients);
-
         checkedIngredients.map(ingredient => (getRecipes(ingredient)))
-
-        setRecipeSuggestions(myRecipeArray);
     }
 
     function getIngredients() {
@@ -82,12 +79,6 @@ export const Fridge = (data) => {
         }
     }, [completeIngredientsList])
 
-    // useEffect(() => {
-    //     if (availableIngredients) {
-    //         console.log(availableIngredients);
-    //     }
-    // }, [availableIngredients])
-
     useEffect(() => {
         if (recipeSuggestions) {
             console.log(recipeSuggestions);
@@ -119,6 +110,14 @@ export const Fridge = (data) => {
                 <button type="submit" onSubmit={submitRecipe()}>Feed Me</button>
                 </form>
             )}
+            {/* {recipeSuggestions && (
+                <ul>Here
+                    {recipeSuggestions.map(recipe => {
+                        Object.keys(recipe).map(function(key) {
+                            return <li>{recipe[key]}</li>
+                    })})}
+                    </ul>
+            )} */}
         </>
     )
 };

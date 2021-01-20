@@ -1,55 +1,5 @@
 1. get a filtered list of all used ingredients for a tick list
 2. search for recipes using available ingredients
 
-       // function findObjectByAttribute (items, attribute, value) {
-        //     console.log(items)
-        //     let howMany = Array.isArray(items);
-        //     console.log(howMany);
-
-        //     if (howMany) {
-        //         for (var i = 0; i < items.length; i++) {
-
-        //         items.map(ingredients => {
-        //             if (items.ingredients[i][attribute] === value) {
-        //                 return items[i];
-        //               }
-        //         })}
-        //     } else {
-        //         for (var i = 0; i < items.length; i++) {
-        //         if (items[i][attribute] === value) {
-        //             return items[i];
-        //           }}
-        //     }
-
-
-        //     }
-        //   console.log(findObjectByAttribute(fridgeData, "ingredients", "fish"));
-
-        //     return null;
-        //   }
-
-
-              // function filterIt(arr, searchKey) {
-        //     return arr.filter(obj => Object.keys(obj).some(key => obj[key].includes(searchKey)));
-        //   }
-        // console.log(result);
-        // console.log("find 'x'", filterIt(result, "tomatoes"));
-
-
-
-        // const result = Object.keys(fridgeData).map((key) => [Number(key), fridgeData[key]]);
-        // console.log(result)
-        // console.log(getKeyByValue(fridgeData, "Spaghetti Bolognaise"));
-
-
-    // function getKeyByValue(object, value) {
-    //     console.log(value);
-    //     console.log(object);
-    //     return Object.keys(object).find(key => object[key] === value);
-    //   }
-
-                    // recipeIngredients.map(ingredients => {
-                //     // const filteredRecipes = Object.keys(ingredients).filter(e => ingredients[e] === searchValue)
-                //     // const filteredRecipes = 
-                //     // console.log(filteredRecipes)
-                // })
+3. make recipe suggestions appear on page
+4. add new recipe suggestions
