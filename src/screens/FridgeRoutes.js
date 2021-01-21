@@ -9,6 +9,7 @@ import {
 import {Home} from './home';
 import {Login} from './login';
 import {Fridge} from './fridge';
+import {Recipe} from './recipe';
 
 export const FridgeRoutes = (data) => {    
 
@@ -20,6 +21,9 @@ export const FridgeRoutes = (data) => {
             </Route>
             <Route path="/fridge">
               <Fridge data={data}/>
+            </Route>
+            <Route path="/recipe">
+              <Recipe data={data}/>
             </Route>
             <Route path="/">
               <Home />

@@ -60,6 +60,8 @@ export const Fridge = (data) => {
             setCompleteIngredientsList(noDuplicates);
           })
     }
+
+
   
     useEffect(() => {
       if (data) {
@@ -81,7 +83,7 @@ export const Fridge = (data) => {
 
     useEffect(() => {
         if (recipeSuggestions) {
-            console.log(recipeSuggestions);
+    
         }
     }, [recipeSuggestions])
 
@@ -110,14 +112,13 @@ export const Fridge = (data) => {
                 <button type="submit" onSubmit={submitRecipe()}>Feed Me</button>
                 </form>
             )}
-            {/* {recipeSuggestions && (
-                <ul>Here
-                    {recipeSuggestions.map(recipe => {
-                        Object.keys(recipe).map(function(key) {
-                            return <li>{recipe[key]}</li>
-                    })})}
-                    </ul>
-            )} */}
+            {recipeSuggestions && (
+                <ul>
+                    {recipeSuggestions.map((recipe) => {
+                        return (<li>{recipe.recipeName}</li>)
+                    })}
+                </ul>
+            )}
         </>
     )
 };
